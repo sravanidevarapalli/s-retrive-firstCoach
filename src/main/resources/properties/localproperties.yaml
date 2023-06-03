@@ -1,0 +1,13 @@
+#http-config
+http:
+ port: '8081'
+ path: '/api/*'
+
+
+#database-config
+
+database-config:
+ url: 'jdbc:postgresql://localhost:5432/postgres'
+ class: 'org.postgresql.Driver'
+ username: 'postgres'
+ password: 'sravs98'

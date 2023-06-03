@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="a9630ba2-0fa9-4f6d-9469-6846a9f196a4" >
+		<db:generic-connection url="${database-config.url}" driverClassName="${database-config.class}" user="${database-config.username}" password="${database-config.password}" />
+	</db:config>
+	<configuration-properties doc:name="Configuration properties" doc:id="72b67669-91ff-4a53-82e2-0cdf8e61eea1" file="properties\localproperties.yaml" />
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="aa959c08-75ca-4d55-be12-9c583f07cab5" >
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	<configuration doc:name="Configuration" doc:id="8030bc2f-604f-4d1b-9419-e227fbcbafa3" defaultErrorHandler-ref="global-error-handlerError_Handler" />
+</mule>

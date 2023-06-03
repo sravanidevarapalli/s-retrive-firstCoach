@@ -1,0 +1,8 @@
+{
+"fromLocation" : "hyd",
+"toLocation" : "blr",
+"departuredatetime" : "2019-04-03",
+"availableseats": 2,
+"locationdescofOrigin": "Hyderabad",
+"locationOfDESTINATION": "Bangalore"
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="s-get-firstcoach-routes-implementation" doc:id="06451889-2e55-4823-b8f4-067f10c79cd6" >
+		<db:select doc:name="query-routes" doc:id="a7e5c81a-0bfd-4b45-9caa-7929d1d000b5" config-ref="Database_Config">
+			<db:sql><![CDATA[select * from routes]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="mapping" doc:id="1b42c2a7-4c5b-49e3-b241-92919769844c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfPayload01 ) -> {
+	originLocation: {
+		locationCode: payload01.originLocation
+	},
+	destinationLocation: {
+		locationCode: payload01.destinationLocation
+	}
+	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="log-the-data" doc:id="41ea8f2b-a1ea-4051-a665-51cbfc2c83bb" message="#[payload]"/>
+		<logger level="INFO" doc:name="end flow" doc:id="61b09037-1b4b-417c-877e-41828e3b3b68" message="end flow"/>
+	</sub-flow>
+</mule>

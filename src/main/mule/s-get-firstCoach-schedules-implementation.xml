@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="s-get-firstCoach-schedules-implementation" doc:id="1507e910-4a2f-4c62-b15a-10ae5c2ea460" >
+		<db:select doc:name="query-schedules" doc:id="155b33cc-9505-4b2a-bad9-f65b80575e9c" config-ref="Database_Config">
+			<db:sql><![CDATA[select * from schedules]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="mapping" doc:id="823dd0b2-9f7a-411e-adfc-59ad14bc3d6a">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	departureSchedules: payload map ( payload01 , indexOfPayload01 ) -> {
+		availableSeats: payload01.availableSeats,
+		departureDateTime: payload01.departureDateTime as String,
+		travelRoute: {
+			destinationLocation: {
+				locationCode: payload01.toLocation
+			},
+			originLocation: {
+				locationCode: payload01.fromLocation
+			}
+		}
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="log the output" doc:id="0eebc0a0-9e6a-488a-9104-b60afedc0e8c" message="#[payload]"/>
+		<logger level="INFO" doc:name="end flow" doc:id="0604dbf7-4b02-404e-af43-3da083335c62" message="end flow-----------"/>
+	</sub-flow>
+</mule>
